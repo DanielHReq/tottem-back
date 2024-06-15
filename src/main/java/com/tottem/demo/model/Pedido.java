@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -23,12 +25,12 @@ public class Pedido implements Serializable {
     // Construtores
 
     public Pedido () {}
-    public Pedido (BigDecimal valor, String status, List<Item> itensPedido){
+    public Pedido (BigDecimal valor, String status, List<ItemDados> itensPedido){
         this.valor = valor;
         this.status =status;
         this.itensPedido = itensPedido;
     }
-    public Pedido (BigDecimal valor, String status, String comentario, List<Item> itensPedido){
+    public Pedido (BigDecimal valor, String status, String comentario, List<ItemDados> itensPedido){
         this.valor = valor;
         this.status =status;
         this.comentario = comentario;
@@ -56,7 +58,11 @@ public class Pedido implements Serializable {
     @JsonIgnore
     private Cliente cliente;
 
-    // n Pedido -> n Item
+    // 1 pedido ---possui---> N itemDados
+    @OneToMany(mappedBy = "pedido", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<ItemDados> itensPedido;
+
+    /** n Pedido -> n Item
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -79,6 +85,7 @@ public class Pedido implements Serializable {
         )
     )
     private List<Item> itensPedido;
+    */ 
 
     // 1 Pedido -recebe um comentario-> 1 Admin
     @SuppressWarnings("removal")
@@ -123,10 +130,10 @@ public class Pedido implements Serializable {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
-    public List<Item> getItensPedido() {
+    public List<ItemDados> getItensPedido() {
         return itensPedido;
     }
-    public void setItensPedido(List<Item> itensPedido) {
+    public void setItensPedido(List<ItemDados> itensPedido) {
         this.itensPedido = itensPedido;
     }
 }
