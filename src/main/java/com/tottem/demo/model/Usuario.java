@@ -119,17 +119,23 @@ public class Usuario implements UserDetails {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String getSenha() {
-        return senha;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
     public String getCelular() {
         return celular;
     }
     public void setCelular(String celular) {
         this.celular = celular;
+    }
+    public Integer getMesa() {
+        return mesa;
+    }
+    public void setMesa(Integer mesa) {
+        this.mesa = mesa;
+    }
+    public String getSenha() {
+        return senha;
+    }
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
     public UserRole getRole() {
         return role;
