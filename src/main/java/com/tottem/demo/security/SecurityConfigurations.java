@@ -39,6 +39,7 @@ public class SecurityConfigurations {
 
                     .requestMatchers(HttpMethod.POST, "/mesas/**").permitAll()
 
+                    .requestMatchers(HttpMethod.POST, "/cardapio/**").permitAll()
                     // requisições PUT
 
                     // requisições DELETE
