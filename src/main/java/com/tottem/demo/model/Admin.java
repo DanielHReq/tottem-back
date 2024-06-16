@@ -15,13 +15,4 @@ public class Admin extends Usuario {
         super.setRole(role);
     }
 
-
-
-    // Métodos
-
-    //private void alterarStatusPedido() {    }
-
-    //private void adicionaComentario () {    }
-
-
 }
