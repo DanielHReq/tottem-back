@@ -20,7 +20,13 @@ public class Item implements Serializable {
         this.descricao = descricao;
         this.valor = valor;
     }
-
+    public Item (String nome, String descricao, BigDecimal valor, Blob imagem) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.imagem = imagem;
+    }
+    
 
     // Atributos
 

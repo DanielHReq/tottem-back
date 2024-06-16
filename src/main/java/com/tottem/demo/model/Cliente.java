@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 public class Cliente extends Usuario {
 
     // Construtores
+
     public Cliente (String nome, String celular, Integer mesa, UserRole role) {
         this.nome = nome;
         this.celular = celular;
@@ -22,10 +23,9 @@ public class Cliente extends Usuario {
 
     // Relações
 
-    // 1 cliente ---realiza---> N pedido
-    @OneToMany(mappedBy = "cliente", orphanRemoval = true, cascade = CascadeType.ALL)
+    // 1 cliente ---realiza---> N pedidos
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Pedido> pedidos = new ArrayList<Pedido>();
-
 
 
     // Métodos

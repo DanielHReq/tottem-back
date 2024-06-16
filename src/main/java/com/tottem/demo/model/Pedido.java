@@ -27,7 +27,7 @@ public class Pedido implements Serializable {
     public Pedido () {}
     public Pedido (BigDecimal valor, String status, List<ItemDados> itensPedido){
         this.valor = valor;
-        this.status =status;
+        this.status = status;
         this.itensPedido = itensPedido;
     }
     public Pedido (BigDecimal valor, String status, String comentario, List<ItemDados> itensPedido){
@@ -51,48 +51,9 @@ public class Pedido implements Serializable {
 
     // Relações
 
-    // 1 Pedido -> 1 Cliente
-    @SuppressWarnings("removal")
-    @org.hibernate.annotations.ForeignKey(name="cliente_id")
-    @OneToOne     // Define o tipo da relação. 1 pedido para 1 cliente
-    @JsonIgnore
-    private Cliente cliente;
-
     // 1 pedido ---possui---> N itemDados
-    @OneToMany(mappedBy = "pedido", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ItemDados> itensPedido;
-
-    /** n Pedido -> n Item
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "item_pedido",
-        uniqueConstraints = @UniqueConstraint (
-            columnNames = {"item_id", "pedido_id"},
-            name = "unique_item_pedido"
-        ),
-        joinColumns = @JoinColumn (
-            name = "item_id",
-            referencedColumnName = "id",
-            table = "item",
-            unique = false
-        ),
-        inverseJoinColumns = @JoinColumn (
-            name = "pedido_id",
-            referencedColumnName = "id",
-            table = "pedido",
-            unique = false
-        )
-    )
-    private List<Item> itensPedido;
-    */ 
-
-    // 1 Pedido -recebe um comentario-> 1 Admin
-    @SuppressWarnings("removal")
-    @org.hibernate.annotations.ForeignKey(name="admin_id")
-    @OneToOne      // Define o tipo da relação. 1 pedido para 1 admin
-    @JsonIgnore
-    private Admin admin;
     
 
     // Métodos

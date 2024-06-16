@@ -16,8 +16,7 @@ public class ItemDados implements Serializable {
     public ItemDados () {
         this.quantidade = 1;
     }
-    public ItemDados (String comentario, int quantidade) {
-        this.comentario = comentario;
+    public ItemDados (int quantidade) {
         this.quantidade = quantidade;
     }
     
@@ -28,7 +27,6 @@ public class ItemDados implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public String comentario;
     public int quantidade;
     
 
@@ -46,12 +44,6 @@ public class ItemDados implements Serializable {
     }
     public void setId(Long id) {
         this.id = id;
-    }
-    public String getComentario() {
-        return comentario;
-    }
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
     }
     public int getQuantidade() {
         return quantidade;
