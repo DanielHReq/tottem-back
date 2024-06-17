@@ -19,6 +19,10 @@ public class ItemDados implements Serializable {
     public ItemDados (int quantidade) {
         this.quantidade = quantidade;
     }
+    public ItemDados (int quantidade, Item item) {
+        this.quantidade = quantidade;
+        this.item = item;
+    }
     
 
     // Atributos

@@ -32,7 +32,7 @@ public class Pedido implements Serializable {
     }
     public Pedido (BigDecimal valor, String status, String comentario, List<ItemDados> itensPedido){
         this.valor = valor;
-        this.status =status;
+        this.status = status;
         this.comentario = comentario;
         this.itensPedido = itensPedido;
     }
