@@ -22,7 +22,6 @@ import com.tottem.demo.model.Item;
 import com.tottem.demo.model.ItemDados;
 import com.tottem.demo.model.Pedido;
 import com.tottem.demo.model.PedidoDTO;
-import com.tottem.demo.model.Usuario;
 import com.tottem.demo.repository.ItemDadosRepository;
 import com.tottem.demo.repository.ItemRepository;
 import com.tottem.demo.repository.PedidoRepository;
@@ -47,14 +46,6 @@ public class PedidoController {
         List<Pedido> pedidoList = (List<Pedido>) pedidoRepository.findAll();
         return new ResponseEntity<>(pedidoList, HttpStatus.OK);
     }
-
-    // listar todos os pedidos de um usuário
-    /*@GetMapping(value = "/usuario/{id}", produces = "application/json")
-    public ResponseEntity<List<Pedido>> mostraPedidosUsuario (@RequestBody Usuario usuario) {
-        List<Pedido> pedidoList = (List<Pedido>) pedidoRepository.findAllByUser(usuario);
-        return new ResponseEntity<>(pedidoList, HttpStatus.OK);
-    }*/
-
 
     // procura 1 pedido pelo seu id e o retorna, se existir
     @GetMapping(value = "/{id}", produces = "application/json")
@@ -84,8 +75,6 @@ public class PedidoController {
     @PostMapping(value = "/", produces = "application/json")
     public ResponseEntity<Pedido> adicionaPedido (@RequestBody PedidoDTO pedidoDTO) {
 
-        System.out.println("POST Pedido");
-        
         List<ItemDados> itemDadosList = new ArrayList<ItemDados>();
 
         for (Map.Entry<Long, Integer> pair : pedidoDTO.itensPedido().entrySet()) {
