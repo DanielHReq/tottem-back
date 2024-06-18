@@ -17,6 +17,12 @@ public class Cliente extends Usuario {
     // Construtores
 
     public Cliente (){}
+    public Cliente (Usuario usuario) {
+        this.celular = usuario.celular;
+        this.senha = usuario.senha;
+        this.nome = usuario.nome;
+        this.role = UserRole.USER;
+    }
     public Cliente (String celular, String senha, String nome, UserRole role) {
         this.celular = celular;
         this.senha = senha;

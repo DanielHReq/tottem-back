@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tottem.demo.model.Cliente;
 import com.tottem.demo.model.Item;
 import com.tottem.demo.model.ItemDados;
 import com.tottem.demo.model.Pedido;
 import com.tottem.demo.model.PedidoDTO;
+import com.tottem.demo.model.Usuario;
 import com.tottem.demo.repository.ItemDadosRepository;
 import com.tottem.demo.repository.ItemRepository;
 import com.tottem.demo.repository.PedidoRepository;
+import com.tottem.demo.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -39,6 +42,8 @@ public class PedidoController {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     // listar todos os pedidos do sistema
     @GetMapping(value = "/", produces = "application/json")
@@ -77,19 +82,23 @@ public class PedidoController {
 
         List<ItemDados> itemDadosList = new ArrayList<ItemDados>();
 
-        for (Map.Entry<Long, Integer> pair : pedidoDTO.itensPedido().entrySet()) {
+        System.out.println(pedidoDTO.itensPedido().entrySet());
+        // Long, Integer
+        for (Map.Entry<String, String> pair : pedidoDTO.itensPedido().entrySet()) {
 
             System.out.println(pair.getKey());
-            Optional<Item> itemOptional = itemRepository.findById(pair.getKey());
+            Optional<Item> itemOptional = itemRepository.findById( Long.valueOf(pair.getKey()) );
             if (!itemOptional.isPresent()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
-            itemDadosList.add(new ItemDados(pair.getValue(), itemOptional.get()));
+            itemDadosList.add(new ItemDados(Integer.valueOf(pair.getValue()), itemOptional.get()));
         }
 
-        Pedido pedido = new Pedido(pedidoDTO.valor(), pedidoDTO.status(), itemDadosList);
+        System.out.println(itemDadosList);
 
-        itemDadosRepository.saveAll(itemDadosList);
+        Pedido pedido = new Pedido(pedidoDTO.valor(), pedidoDTO.status(), pedidoDTO.mesa(), (Cliente) usuarioRepository.findByLogin(pedidoDTO.celular()), itemDadosList);
+
         Pedido pedidoSalvo = pedidoRepository.save(pedido);
+        //itemDadosRepository.saveAll(itemDadosList);
         return new ResponseEntity<>(pedidoSalvo, HttpStatus.OK);
     }
 

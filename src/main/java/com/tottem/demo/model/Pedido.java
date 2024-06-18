@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -25,6 +26,14 @@ public class Pedido implements Serializable {
         this.itensPedido = itensPedido;
     }
 
+    public Pedido(BigDecimal valor, String status, String mesa, Cliente cliente, List<ItemDados> itensPedido) {
+        this.valor = valor;
+        this.status = status;
+        this.mesa = mesa;
+        this.itensPedido = itensPedido;
+        this.cliente = cliente;
+    }
+
     // Atributos
 
     @Id
@@ -33,9 +42,14 @@ public class Pedido implements Serializable {
 
     private BigDecimal valor;
     private String status;
-    protected Integer mesa;
+    protected String mesa;
 
     // Relações
+
+    // Pedido n -> 1 Cliente
+    @org.hibernate.annotations.ForeignKey(name = "cliente_id")
+    @ManyToOne(optional = true)
+    private Cliente cliente;
 
     // 1 pedido ---possui---> N itemDados
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
@@ -86,11 +100,20 @@ public class Pedido implements Serializable {
         this.itensPedido = itensPedido;
     }
 
-    public Integer getMesa() {
+    public String getMesa() {
         return mesa;
     }
 
-    public void setMesa(Integer mesa) {
+    public void setMesa(String mesa) {
         this.mesa = mesa;
     }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
 }
