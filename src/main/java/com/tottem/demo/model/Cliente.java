@@ -14,10 +14,9 @@ public class Cliente extends Usuario {
 
     // Construtores
 
-    public Cliente (String nome, String celular, Integer mesa, UserRole role) {
+    public Cliente (String nome, String celular, UserRole role) {
         this.nome = nome;
         this.celular = celular;
-        this.mesa = mesa;
         this.role = role;
     }
 

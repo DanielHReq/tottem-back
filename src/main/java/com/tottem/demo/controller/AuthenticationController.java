@@ -15,6 +15,7 @@ import com.tottem.demo.model.AuthenticationDTO;
 import com.tottem.demo.model.Cliente;
 import com.tottem.demo.model.LoginResponseDTO;
 import com.tottem.demo.model.RegisterDTO;
+import com.tottem.demo.model.UserRole;
 import com.tottem.demo.model.Usuario;
 import com.tottem.demo.repository.UsuarioRepository;
 import com.tottem.demo.security.TokenService;
@@ -41,21 +42,21 @@ public class AuthenticationController {
 
         // as senhas do usuário serão armazenadas como HASH
         // assim estarão criptografadas e não podem ser diretamente acessadas
-
-        // atualizar para permitir senha nula em caso de Cliente
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), "default");
+        
+        if (data.role() != UserRole.USER) usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
 
         try {
             var auth = this.authenticationManager.authenticate(usernamePassword);
             var token = tokenService.generateToken((Usuario)auth.getPrincipal());
 
-            System.out.println("AuthControllerToken: " + token);
+            //System.out.println("AuthControllerToken: " + token);
 
             return ResponseEntity.ok(new LoginResponseDTO(token));
 
         } catch (Exception e) {
-            System.out.println("Erro:  ");
-            System.out.println(e);
+            //System.out.println("Erro:  ");
+            //System.out.println(e);
             return ResponseEntity.internalServerError().build();
         }
 
@@ -76,7 +77,7 @@ public class AuthenticationController {
         switch (data.role()) {
             case USER:
                 encryptedPassword = new BCryptPasswordEncoder().encode("default");
-                newUser = new Cliente(data.login(), encryptedPassword, data.mesa() ,data.role());
+                newUser = new Cliente(data.login(), encryptedPassword, data.role());
                 break;
             default:
                 encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());

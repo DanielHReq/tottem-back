@@ -86,7 +86,7 @@ public class PedidoController {
             itemDadosList.add(new ItemDados(pair.getValue(), itemOptional.get()));
         }
 
-        Pedido pedido = new Pedido(pedidoDTO.valor(), pedidoDTO.status(), pedidoDTO.comentario(), itemDadosList);
+        Pedido pedido = new Pedido(pedidoDTO.valor(), pedidoDTO.status(), itemDadosList);
 
         itemDadosRepository.saveAll(itemDadosList);
         Pedido pedidoSalvo = pedidoRepository.save(pedido);
