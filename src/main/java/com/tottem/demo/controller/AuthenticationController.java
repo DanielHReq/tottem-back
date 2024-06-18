@@ -89,4 +89,30 @@ public class AuthenticationController {
         
         return ResponseEntity.ok().build();
     }
+
+
+    // endpoint para login e registro juntos - se não existir, registra e faz login em seguida
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/loginreg")
+    public ResponseEntity loginreg(@RequestBody @Valid AuthenticationDTO data){
+        
+        if (data.role() != UserRole.USER) return ResponseEntity.internalServerError().build();
+
+        // se não encontra um usuário cadastrado com o conteúdo de 'data', cadastra
+        if (this.usuarioRepository.findByLogin(data.login()) == null) {
+            String encryptedPassword = new BCryptPasswordEncoder().encode("default");
+            Usuario newUser = new Cliente(data.login(), encryptedPassword, data.nome(), data.role());
+            this.usuarioRepository.save(newUser);
+        }
+
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), "default");
+
+        try {
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            var token = tokenService.generateToken((Usuario)auth.getPrincipal());
+            return ResponseEntity.ok(new LoginResponseDTO(token));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

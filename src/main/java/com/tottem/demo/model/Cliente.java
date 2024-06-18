@@ -3,6 +3,8 @@ package com.tottem.demo.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -14,6 +16,13 @@ public class Cliente extends Usuario {
 
     // Construtores
 
+    public Cliente (){}
+    public Cliente (String celular, String senha, String nome, UserRole role) {
+        this.celular = celular;
+        this.senha = senha;
+        this.nome = nome;
+        this.role = role;
+    }
     public Cliente (String nome, String celular, UserRole role) {
         this.nome = nome;
         this.celular = celular;
