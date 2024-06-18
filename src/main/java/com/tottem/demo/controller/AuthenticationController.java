@@ -42,9 +42,10 @@ public class AuthenticationController {
 
         // as senhas do usuário serão armazenadas como HASH
         // assim estarão criptografadas e não podem ser diretamente acessadas
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), "default");
-        
-        if (data.role() != UserRole.USER) usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+        var senha = "default";
+        if (data.role() != UserRole.USER) senha = data.senha();
+
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), senha);
 
         try {
             var auth = this.authenticationManager.authenticate(usernamePassword);
@@ -65,8 +66,10 @@ public class AuthenticationController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
+    public ResponseEntity register(@RequestBody @Valid AuthenticationDTO data){
         
+        System.out.println(data.login());
+        System.out.println(this.usuarioRepository.findByLogin(data.login()));
         // se encontra um usuário já cadastrado com o conteúdo de 'data', retorna badRequest
         if (this.usuarioRepository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
         
@@ -100,6 +103,7 @@ public class AuthenticationController {
 
         // se não encontra um usuário cadastrado com o conteúdo de 'data', cadastra
         if (this.usuarioRepository.findByLogin(data.login()) == null) {
+            System.out.println("oi");
             String encryptedPassword = new BCryptPasswordEncoder().encode("default");
             Usuario newUser = new Cliente(data.login(), encryptedPassword, data.nome(), data.role());
             this.usuarioRepository.save(newUser);
