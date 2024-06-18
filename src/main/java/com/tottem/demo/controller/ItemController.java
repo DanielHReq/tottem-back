@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tottem.demo.model.Item;
-import com.tottem.demo.model.ItemDTO;
 import com.tottem.demo.repository.ItemRepository;
 
 @RestController
@@ -67,8 +66,7 @@ public class ItemController {
 
     // adiciona item ao sistema
     @PostMapping(value = "/", produces = "application/json")
-    public ResponseEntity<Item> adicionaItem (@RequestBody ItemDTO itemDTO) {
-        Item item = new Item(itemDTO.nome(), itemDTO.descricao(), itemDTO.valor());
+    public ResponseEntity<Item> adicionaItem (@RequestBody Item item) {
         Item itemSalvo = itemRepository.save(item);
         return new ResponseEntity<>(itemSalvo, HttpStatus.OK);
     }
