@@ -43,7 +43,7 @@ public class SecurityConfigurations {
 
                     .requestMatchers(HttpMethod.POST, "/cardapio/**").permitAll()
 
-                    .requestMatchers(HttpMethod.POST, "/pedidos/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/pedidos/**").hasAnyRole("ADMIN", "USER")
                     
                     // requisições PUT
 
