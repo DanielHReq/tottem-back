@@ -53,17 +53,6 @@ public class ItemController {
         }
     }
 
-    // procura 1 item pelo seu nome e o retorna, se existir
-    /*@GetMapping(value = "/{nome}", produces = "application/json")
-    public ResponseEntity<Item> buscaItemPeloNome (@PathVariable(value = "nome") String nome) {
-        try {
-            Optional<Item> item = Optional.ofNullable(itemRepository.findByName(nome));
-            return new ResponseEntity<>(item.get(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity("Item não encontrado", HttpStatus.NOT_FOUND);
-        }
-    }*/
-
     // adiciona item ao sistema
     @PostMapping(value = "/", produces = "application/json")
     public ResponseEntity<Item> adicionaItem (@RequestBody Item item) {
