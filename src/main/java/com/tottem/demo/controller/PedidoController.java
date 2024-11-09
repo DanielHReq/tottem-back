@@ -46,6 +46,7 @@ public class PedidoController {
     private UsuarioRepository usuarioRepository;
 
     // listar todos os pedidos do sistema
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<List<Pedido>> mostraPedidos () {
         List<Pedido> pedidoList = (List<Pedido>) pedidoRepository.findAll();
