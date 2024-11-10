@@ -1,5 +1,6 @@
 package com.tottem.demo.controller;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,14 @@ public class PedidoController {
     @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<List<Pedido>> mostraPedidos () {
         List<Pedido> pedidoList = (List<Pedido>) pedidoRepository.findAll();
+        return new ResponseEntity<>(pedidoList, HttpStatus.OK);
+    }
+
+    // listar todos os pedidos em aberto do sistema
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/aberto", produces = "application/json")
+    public ResponseEntity<List<Pedido>> mostraPedidosAbertos () {
+        List<Pedido> pedidoList = /*(List<Pedido>) */pedidoRepository.pedidosEmAberto();
         return new ResponseEntity<>(pedidoList, HttpStatus.OK);
     }
 
@@ -104,10 +113,27 @@ public class PedidoController {
     }
 
     // edita pedido existente no sistema
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping(value = "/", produces = "application/json")
     public ResponseEntity<Pedido> atualizaPedido (@RequestBody Pedido pedido) {
         Pedido pedidoSalvo = pedidoRepository.save(pedido);
         return new ResponseEntity<>(pedidoSalvo, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<Pedido> concluiPedido (@PathVariable(value = "id") Long id) {
+        try {
+            System.out.println(id);
+            int salvo = pedidoRepository.concluirPedido(id);
+            System.out.println("passou");
+            //Pedido pedidoSalvo = pedidoRepository.save(pedido);
+            if (salvo < 1) throw new Exception("Não atualizou pedido");
+
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity("Erro na conclusão do pedido", HttpStatus.NOT_FOUND);
+        }
     }
 
     // remove pedido do sistema

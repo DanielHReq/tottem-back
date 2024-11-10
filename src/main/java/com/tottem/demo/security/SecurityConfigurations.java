@@ -48,6 +48,8 @@ public class SecurityConfigurations {
                     
                     // requisições PUT
 
+                    .requestMatchers(HttpMethod.PUT, "/pedidos/**").permitAll() // TODO: mudar aqui
+
                     // requisições DELETE
 
                     .anyRequest().authenticated()
