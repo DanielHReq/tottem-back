@@ -49,7 +49,10 @@ public class AuthenticationController {
 
         try {
             var auth = this.authenticationManager.authenticate(usernamePassword);
-            var token = tokenService.generateToken((Usuario)auth.getPrincipal());
+            // validação em duas etapas para evitar login de clientes na página de administradores
+            Usuario usuario = (Usuario)auth.getPrincipal();
+            if (usuario.getRole() != data.role()) throw new Exception("Login inválido");
+            var token = tokenService.generateToken(usuario);
 
             //System.out.println("AuthControllerToken: " + token);
 
@@ -103,7 +106,7 @@ public class AuthenticationController {
 
         // se não encontra um usuário cadastrado com o conteúdo de 'data', cadastra
         if (this.usuarioRepository.findByLogin(data.login()) == null) {
-            System.out.println("oi");
+            //System.out.println("oi");
             String encryptedPassword = new BCryptPasswordEncoder().encode("default");
             Usuario newUser = new Cliente(data.login(), encryptedPassword, data.nome(), data.role());
             this.usuarioRepository.save(newUser);
