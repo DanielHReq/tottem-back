@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tottem.demo.model.Admin;
 import com.tottem.demo.model.AuthenticationDTO;
 import com.tottem.demo.model.Cliente;
 import com.tottem.demo.model.LoginResponseDTO;
@@ -83,11 +84,11 @@ public class AuthenticationController {
         switch (data.role()) {
             case USER:
                 encryptedPassword = new BCryptPasswordEncoder().encode("default");
-                newUser = new Cliente(data.login(), encryptedPassword, data.role());
+                newUser = new Cliente(data.login(), encryptedPassword, data.nome(), data.role());
                 break;
             default:
                 encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
-                newUser = new Usuario(data.login(), encryptedPassword, data.role());
+                newUser = new Admin(data.login(), encryptedPassword, data.nome(), data.role());
                 break;
         }
         

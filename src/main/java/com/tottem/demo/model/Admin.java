@@ -9,9 +9,10 @@ public class Admin extends Usuario {
 
     // Construtores
     public Admin () {}
-    public Admin (String nome, String senha, UserRole role) {
-        super.setNome(nome);
+    public Admin (String celular, String senha, String nome, UserRole role) {
+        super.setCelular(celular);
         super.setSenha(senha);
+        super.setNome(nome);
         super.setRole(role);
     }
 
