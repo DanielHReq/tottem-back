@@ -33,7 +33,7 @@ public class SecurityConfigurations {
                     
                     .requestMatchers(HttpMethod.GET, "/carrinho/**").hasAnyRole("ADMIN", "USER")
 
-                    .requestMatchers(HttpMethod.GET, "/pedidos/**").permitAll() // TODO: mudar aqui !!!
+                    .requestMatchers(HttpMethod.GET, "/pedidos/**").hasAnyRole("ADMIN")
                     // requisições POST
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
